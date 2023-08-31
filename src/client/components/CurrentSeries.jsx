@@ -6,6 +6,9 @@ import { IconContext } from "react-icons";
 
 import { useSelector} from 'react-redux';
 
+import api from '../../api';
+
+
 const CurrentSeries = () => {
   const currentSeriesData = [
     {
@@ -31,6 +34,19 @@ const CurrentSeries = () => {
     },
   ];
   const isDarkMode =  useSelector((state) => state.isdarkmode)
+  const [series, setSeries] = React.useState([]);
+
+  React.useEffect(() => {
+    api.get('current-series/')
+      .then((res) => {
+        console.log(res.data.data);
+        setSeries(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []); 
+ 
   return (
     <div className='xl:ml-8 mt-8 px-auto'>
     <div className="flex items-center justify-between mb-4 py-1 bg-gradient-to-r  from-[#3f3f73] to-purple-900 rounded-lg">
@@ -51,20 +67,22 @@ const CurrentSeries = () => {
       </div>
       <button className="hover:text-blue-500 ml-auto xl:ml-56 mr-2 whitespace-nowrap text-white">View All</button>
     </div>
-    <div className="">
-      {currentSeriesData.map((series, index) => (
-        <div key={index} className={`${isDarkMode ? 'bg-white/10':'bg-black/10'} flex mb-2  rounded-lg`}>
+    <div className="overflow-auto max-h-48">
+    {series.length === 0 ? (
+      <p>Loading...</p>
+    ) : series.map((league) => (
+        <div key={league.league_key} className={`${isDarkMode ? 'bg-white/10':'bg-black/10'} flex mb-2  rounded-lg`}>
         <div className="w-16 h-14 rounded-lg bg-red-900 " >
-        <img src={series.logo} alt={series.name} className='w-full h-full' />
+        {/* <img src={series.logo} alt={series.name} className='w-full h-full' /> */}
         </div>
           
           <div className='flex flex-col ml-2 '>
-          <p className="font-bold">{series.name}</p>
+          <p className="font-bold">{league.league_name}</p>
           <div className={`${isDarkMode ? 'border-t-[1px] border-black':'border-t-[1px] border-white'} flex whitespace-nowrap text-sm`}>
             
             <p className='mr-2'>{series.matches} Matches</p>
             <p className='mr-2'>|</p>
-            <p> {series.startDate} to {series.endDate}</p>
+            <p> {league.league_year}</p>
           </div>
           </div>
           

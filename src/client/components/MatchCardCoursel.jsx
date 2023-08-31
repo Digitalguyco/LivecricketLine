@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import MatchCard from './MatchCard';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -6,12 +6,23 @@ import 'slick-carousel/slick/slick-theme.css';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { IconContext } from "react-icons";  
 import { useSelector} from 'react-redux';
+import api from '../../api';
 
 const MatchCardCoursel = () => {
-
+  const [matchData, setMatchData] = useState([])
   const isDarkMode =  useSelector((state) => state.isdarkmode)
 
-
+  useEffect(() => {
+    api.get('match-cards/')
+      .then((res) => {
+        console.log(res.data.data);
+        setMatchData(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []); 
+ 
     const customDotStyle = {
         width: '50px',
         height: '18px',
@@ -171,26 +182,18 @@ const MatchCardCoursel = () => {
       };
 
       return (
-        <div className="  ">
-          <Slider {...settings}>
-            <div className="px-4 ">
-              <MatchCard />
+        <div>
+        <Slider {...settings}>
+          {matchData.map((match) => (
+            <div className="px-4" key={match.event_key}>
+              <MatchCard match={match} />
             </div>
-            <div className="px-4 ">
-              <div className="bg-gray-800 text-white p-20 rounded-md text-center">Ad Space</div>
-            </div>
-            <div className="px-4 ">
-              <MatchCard />
-            </div>
-          
-            <div className="px-4 ">
-              <MatchCard />
-            </div>
-            <div className="px-4 ">
-              <MatchCard />
-            </div>
-          </Slider>
-        </div>
+          ))}
+          <div className="px-4 ">
+            <div className="bg-gray-800 text-white p-20 rounded-md text-center">Ad Space</div>
+          </div>
+        </Slider>
+      </div>
       );
     };
     

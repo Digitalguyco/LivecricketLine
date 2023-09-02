@@ -52,7 +52,7 @@ const NavBar = () => {
             </a>
             <div className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 origin-left group-hover:scale-x-100 transition ease-in-out duration-300"></div>
           </li>
-          <li className="relative group">
+          {/* <li className="relative group">
             <a href="#" >
               Stats
             </a>
@@ -63,7 +63,7 @@ const NavBar = () => {
               Points Table
             </a>
             <div className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 origin-left group-hover:scale-x-100 transition ease-in-out duration-300"></div>
-          </li>
+          </li> */}
 
         </ul>
         {isDarkMode? 

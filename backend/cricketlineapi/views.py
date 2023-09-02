@@ -14,7 +14,7 @@ class MatchCards(generics.GenericAPIView):
         '''
         https://apiv2.api-cricket.com/cricket/?method=get_events&APIkey={API_TOKEN}&date_start=2023-07-24&date_stop=2023-08-24
         '''
-        url = f'https://apiv2.api-cricket.com/cricket/?method=get_events&APIkey={API_TOKEN}&date_start=2023-08-04&date_stop=2023-08-04'
+        url = f'https://apiv2.api-cricket.com/cricket/?method=get_events&APIkey={API_TOKEN}&date_start=2023-09-02&date_stop=2023-08-08'
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
@@ -35,7 +35,6 @@ class CurrentSeries(generics.GenericAPIView):
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
-            print(data)
         else:
             data = 'No data found'
 

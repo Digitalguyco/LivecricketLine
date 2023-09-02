@@ -73,7 +73,7 @@ const CurrentSeries = () => {
     ) : series.map((league) => (
         <div key={league.league_key} className={`${isDarkMode ? 'bg-white/10':'bg-black/10'} flex mb-2  rounded-lg`}>
         <div className="w-16 h-14 rounded-lg bg-red-900 " >
-        {/* <img src={series.logo} alt={series.name} className='w-full h-full' /> */}
+        <img src={require('../assets/series.jpg')} alt={league.league_name} className='w-full h-full' />
         </div>
           
           <div className='flex flex-col ml-2 '>

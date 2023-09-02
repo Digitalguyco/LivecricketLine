@@ -8,6 +8,50 @@ const MatchCard = ({ match }) => {
     const isDarkMode = useSelector((state) => state.isdarkmode);
     const vs_white = require('../assets/vs-white.png');
     const vs_black = require('../assets/vs-black.png');
+
+    function shortenTeamName(teamName) {
+      const maxLength = 8; // Define the maximum length for team names
+    
+      if (teamName.length > maxLength) {
+        // If the team name is longer than maxLength, shorten it
+        const words = teamName.split(' '); // Split the name into words
+        let shortenedName = words
+          .map((word) => word.slice(0, 3)) // Take the first three letters of each word
+          .join(' '); // Join the shortened words with a space
+    
+        // Ensure that the final shortened name is 7 characters or less
+        if (shortenedName.length > maxLength) {
+          shortenedName = shortenedName.slice(0, maxLength); // Truncate to maxLength
+        }
+    
+        return shortenedName.toUpperCase(); // Convert to uppercase
+      }
+    
+      return teamName.toUpperCase(); // If not too long, keep the original name
+    }
+
+    function limitWords(text, maxWords) {
+      const words = text.split(' '); // Split the text into words
+      if (words.length > maxWords) {
+        const limitedWords = words.slice(0, maxWords); // Take the first maxWords words
+        return limitedWords.join(' ') + '...'; // Join them back with "..." at the end
+      }
+      return text; // If the text has maxWords or fewer, return it as is
+    }
+
+    function getIndicatorColor(eventStatus) {
+      switch (eventStatus) {
+        case "Finished":
+          return "blue"; // Set the color to blue for finished matches
+        case "In Progress":
+          return "red"; // Set the color to green for live matches
+        case "":
+          return "yellow"; // Set the color to yellow for matches yet to begin
+        default:
+          return "yellow"; // Set a default color (e.g., red) for unknown statuses
+      }
+    }
+    
   
   
     return (
@@ -28,8 +72,9 @@ const MatchCard = ({ match }) => {
                 </p>
               </div>
   
-              <div className="rounded-lg bg-red-600 py- flex items-center">
-                <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse" />
+              <div className="rounded-lg  flex items-center">
+              <div className="w-2 h-2 rounded-full mr-2 animate-pulse" style={{ backgroundColor: getIndicatorColor(match.event_status) }}></div>
+
                 {/* <h2 className="text-small text-white">Live</h2> */}
               </div>
   
@@ -44,11 +89,11 @@ const MatchCard = ({ match }) => {
                   <div className="flex items-start">
                     <div className="h-24 w-24 relative">
                       <img
-                        src={match.event_home_team_logo ? match.event_home_team_logo : require('../assets/ind.png')}
+                        src={match.event_home_team_logo ? match.event_home_team_logo : require('../assets/Team_Flags.png') }
                         alt="team"
-                        className="w-full h-auto absolute bottom-3 right-[22px]"
+                        className="w-[50%] h-auto absolute bottom-9 right-[50px] rounded-lg"
                       />
-                      <p className=" font-bold absolute bottom-1 right-[50px] ">{match.event_home_team}</p>
+                      <p className=" font-bold absolute bottom-1 text-sm whitespace-nowrap">{shortenTeamName(match.event_home_team)}</p>
                     </div>
                     <div className="h-12 w-20 absolute mt-2 left-[50px]">
                       <p
@@ -56,9 +101,9 @@ const MatchCard = ({ match }) => {
                           isDarkMode ? 'border-b-[1px] border-black' : 'border-b-[1px] border-white'
                         } text-lg font-bold w-16`}
                       >
-                        {match.event_home_final_result}
+                        {match.event_home_final_result ? match.event_home_final_result : "N/A"}
                       </p>
-                      <p className="text-sm font-mono">30 Over</p>
+                      {/* <p className="text-sm font-mono">30 Over</p> */}
                     </div>
                   </div>
                 </div>
@@ -77,17 +122,17 @@ const MatchCard = ({ match }) => {
                           isDarkMode ? 'border-b-[1px] border-black' : 'border-b-[1px] border-white'
                         } text-lg font-bold text-end w-16`}
                       >
-                        {match.event_away_final_result}
+                        {match.event_away_final_result  ? match.event_away_final_result : "N/A"}
                       </p>
-                      <p className="text-sm text-end font-mono w-16">30 Over</p>
+                      {/* <p className="text-sm text-end font-mono w-16">30 Over</p> */}
                     </div>
                     <div className="h-24 w-24 relative">
                       <img
-                        src={match.event_away_team_logo ? match.event_away_team_logo : require('../assets/sa.png')}
+                        src={match.event_away_team_logo ? match.event_away_team_logo : require('../assets/Team_Flags.png')}
                         alt="team"
-                        className="w-full h-auto absolute bottom-3 left-[22px]"
+                        className="w-[50%] h-auto absolute bottom-9 left-[50px] rounded-lg"
                       />
-                      <p className=" font-bold absolute bottom-1 left-[55px] ">{match.event_away_team}</p>
+                      <p className=" font-bold absolute bottom-1 text-sm whitespace-nowrap right-4">{shortenTeamName(match.event_away_team)}</p>
                     </div>
                   </div>
                 </div>
@@ -99,14 +144,14 @@ const MatchCard = ({ match }) => {
               ></div>
               <div className="relative">
                 <div className="text-[10px] absolute top-12 right-[150px]">
-                  <p className="whitespace-nowrap">{match.event_status_info}</p>
+                  <p className="whitespace-nowrap mr-2">{limitWords(match.event_status_info,5)}</p>
                 </div>
   
                 <div className="absolute right-2 top-11 flex items-center">
                   <GiTrophyCup className="mr-2" />
-                  <span className="mr-2 font-bold">{match.event_away_team}</span>
-                  <span className="bg-red-500 rounded px-1 text-white text-[12px] mr-1">23</span>
-                  <span className="bg-green-500 rounded px-1 text-white text-[12px]">24</span>
+                  <span className="mr-2 font-bold whitespace-nowrap">{shortenTeamName(match.event_home_team)}</span>
+                  <span className="bg-red-500 rounded px-1 text-white text-[12px] mr-1">0</span>
+                  <span className="bg-green-500 rounded px-1 text-white text-[12px]">0</span>
                 </div>
               </div>
             </div>

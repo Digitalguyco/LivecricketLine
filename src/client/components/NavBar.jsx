@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import {actionCreators}  from '../../state';
 import {RxHamburgerMenu} from 'react-icons/rx'
 import { IconContext } from "react-icons"; 
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
     const logo =require('../assets/logo.png')
@@ -29,27 +30,27 @@ const NavBar = () => {
         <div className="flex items-center">
           <ul className=" space-x-10 xl:flex hidden">
           <li className="relative group">
-            <a href="#" >
+            <Link to="/" >
               Home
-            </a>
+            </Link>
             <div className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 origin-left group-hover:scale-x-100 transition ease-in-out duration-300"></div>
           </li>
           <li className="relative group">
-            <a href="#" >
+            <Link to="#" >
               News
-            </a>
+            </Link>
             <div className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 origin-left group-hover:scale-x-100 transition ease-in-out duration-300"></div>
           </li>
           <li className="relative group">
-            <a href="#" >
+            <Link to="/series" >
               Series
-            </a>
+            </Link>
             <div className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 origin-left group-hover:scale-x-100 transition ease-in-out duration-300"></div>
           </li>
           <li className="relative group">
-            <a href="#" >
+            <Link to="/fixtures" >
               Fixtures
-            </a>
+            </Link>
             <div className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 origin-left group-hover:scale-x-100 transition ease-in-out duration-300"></div>
           </li>
           {/* <li className="relative group">

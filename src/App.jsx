@@ -2,6 +2,8 @@ import {React, useEffect} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import Navbar from './components/Navbar';
 import Home from './client/pages/Home';
+import Series from './client/pages/Series'
+import Fixture from './client/components/Fixtures';
 
 // import Scores from './pages/Scores';
 import TopAdBanner from './client/components/TopAdBanner'
@@ -50,6 +52,8 @@ const App = () => {
       <section className={`${isDarkMode ?    'bg-white/90 text-black' :'bg-black/90 text-white'}    min-h-screen overflow-auto  `}>
         <Routes>
           <Route exact path="/" element={<Home/>} />
+          <Route exact path="/series" element={<Series/>} />
+          <Route exact path="/fixtures" element={<Fixture/>} />
           {/* <Route exact path="/scores" element={<Scores/>} /> */}
         </Routes>
         
